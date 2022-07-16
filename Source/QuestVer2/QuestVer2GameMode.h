@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "QuestVer2GameMode.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDiedSignature, ACharacter*, Character);
+
 UCLASS(minimalapi)
 class AQuestVer2GameMode : public AGameModeBase
 {
@@ -13,6 +15,24 @@ class AQuestVer2GameMode : public AGameModeBase
 
 public:
 	AQuestVer2GameMode();
+	const FOnPlayerDiedSignature& GetOnPlayerDied() const { return OnPlayerDied; }
+
+	virtual void RestartPlayer(AController* NewPlayer) override;
+
+protected:
+    virtual void BeginPlay() override;
+
+    //Called when Player character has died.
+    UFUNCTION()
+        virtual void PlayerDied(ACharacter* Character);
+
+    //Signature to bind delegate. 
+    UPROPERTY()
+        FOnPlayerDiedSignature OnPlayerDied;
+
+private:
+    FTimerHandle handle;
+    void TimeOver();
 };
 
 

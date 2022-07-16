@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "QuestVer2GameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AQuestVer2Character
@@ -127,3 +128,47 @@ void AQuestVer2Character::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+/*
+* 死亡時の処理
+* GameModeの死亡処理を呼び出している
+*/
+void AQuestVer2Character::Destroyed() {
+	Super::Destroyed();
+
+	if (UWorld* World = GetWorld()) {
+		if (AQuestVer2GameMode* GameMode = Cast<AQuestVer2GameMode>(World->GetAuthGameMode())) {
+			GameMode->GetOnPlayerDied().Broadcast(this);
+			UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"Destroyed call");
+		}
+	}
+}
+
+void AQuestVer2Character::CallRestartPlayer() {
+	//コントローラーの参照取得
+	AController* ControllerRef = GetController();
+
+	Destroy();
+
+	if (UWorld* World = GetWorld()) {
+		if (AQuestVer2GameMode* GameMode = Cast<AQuestVer2GameMode>(World->GetAuthGameMode())) {
+			GameMode->RestartPlayer(ControllerRef);
+			UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"CallRestartPlayer call");
+		}
+	}
+}
+
+/*
+* ダメージ処理
+*/
+float AQuestVer2Character::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"TakeDamage call");
+
+	const float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	CallRestartPlayer();
+
+	return ActualDamage;
+}
+

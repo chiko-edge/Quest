@@ -13,3 +13,47 @@ AQuestVer2GameMode::AQuestVer2GameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+
+
+void AQuestVer2GameMode::BeginPlay() {
+
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"BeginPlay");
+	Super::BeginPlay();
+
+	//デリゲードがバインドされていない場合
+	//PlayerDiedのバインドを行う
+	if (!OnPlayerDied.IsBound()) {
+		OnPlayerDied.AddDynamic(this, &AQuestVer2GameMode::PlayerDied);
+	}
+
+	//タイマー
+	FTimerManager& timeManager = GetWorldTimerManager();
+	timeManager.SetTimer(handle, this, &AQuestVer2GameMode::TimeOver, 5.0f, false);
+}
+
+void AQuestVer2GameMode::TimeOver() {
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"Time Over");
+
+
+	//タイマー開放処理
+	FTimerManager& timeManager = GetWorldTimerManager();
+	timeManager.ClearTimer(handle);
+	timeManager.ClearAllTimersForObject(this);
+}
+
+
+/**
+* プレイヤーのリスポーン
+*/
+void AQuestVer2GameMode::RestartPlayer(AController* NewPlayer) {
+	Super::RestartPlayer(NewPlayer);
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"RestartPlayer call");
+}
+
+void AQuestVer2GameMode::PlayerDied(ACharacter* Character) {
+	//キャラクターコントローラーへの参照を取得
+	AController* CharacterController = Character->GetController();
+	RestartPlayer(CharacterController);
+
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"PlayerDied call");
+}

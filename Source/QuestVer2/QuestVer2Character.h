@@ -56,6 +56,15 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
+	//アクタが破壊されたとき呼び出される
+	//AActorのインターフェース
+	virtual void Destroyed();
+
+	//GameModeを呼び出しプレイヤーをリスタートさせる
+	void CallRestartPlayer();
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
