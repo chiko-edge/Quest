@@ -60,8 +60,7 @@ protected:
 	//AActorのインターフェース
 	virtual void Destroyed();
 
-	//GameModeを呼び出しプレイヤーをリスタートさせる
-	void CallRestartPlayer();
+
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 
@@ -70,5 +69,8 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	//GameModeを呼び出しプレイヤーをリスタートさせる
+	void CallRestartPlayer();
 };
 

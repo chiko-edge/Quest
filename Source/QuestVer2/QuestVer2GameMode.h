@@ -31,8 +31,15 @@ protected:
         FOnPlayerDiedSignature OnPlayerDied;
 
 private:
-    FTimerHandle handle;
+    FTimerHandle Handle;
     void TimeOver();
+    void SetTimer();
+
+
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MaxTime")
+    float MaxTime;
 };
 
 
