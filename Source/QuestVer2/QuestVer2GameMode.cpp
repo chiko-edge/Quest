@@ -3,6 +3,7 @@
 #include "QuestVer2GameMode.h"
 #include "QuestVer2Character.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 AQuestVer2GameMode::AQuestVer2GameMode()
 {
@@ -33,7 +34,8 @@ void AQuestVer2GameMode::BeginPlay() {
 
 void AQuestVer2GameMode::TimeOver() {
 	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"Time Over");
-
+	APlayerController* aPlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	RestartPlayer(aPlayerController);
 
 	//タイマー開放処理
 	FTimerManager& timeManager = GetWorldTimerManager();
