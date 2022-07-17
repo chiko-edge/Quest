@@ -71,6 +71,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	//GameModeを呼び出しプレイヤーをリスタートさせる
+	UFUNCTION(BlueprintCallable, Category = "MyFunc")
 	void CallRestartPlayer();
 };
 
