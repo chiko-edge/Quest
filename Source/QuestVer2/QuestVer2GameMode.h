@@ -39,7 +39,7 @@ private:
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MaxTime")
-    float MaxTime;
+    float MaxTime = 10;
 };
 
 
