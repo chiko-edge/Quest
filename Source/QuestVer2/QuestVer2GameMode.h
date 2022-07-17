@@ -21,6 +21,7 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
 
     //Called when Player character has died.
     UFUNCTION()

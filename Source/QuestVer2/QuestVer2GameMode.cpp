@@ -13,6 +13,7 @@ AQuestVer2GameMode::AQuestVer2GameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 
@@ -29,6 +30,13 @@ void AQuestVer2GameMode::BeginPlay() {
 
 	//タイマーセット
 	SetTimer();
+}
+
+void AQuestVer2GameMode::Tick(float DeltaTime)
+{
+	float time = GetWorldTimerManager().GetTimerRemaining(Handle);
+
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s : %f"), L"tick", time);
 }
 
 void AQuestVer2GameMode::SetTimer() {
