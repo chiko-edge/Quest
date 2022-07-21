@@ -40,7 +40,6 @@ void AQuestVer2GameMode::Tick(float DeltaTime)
 }
 
 void AQuestVer2GameMode::SetTimer() {
-	//タイマー開放処理
 	FTimerManager& TimeManager = GetWorldTimerManager();
 	//タイマー
 	TimeManager.SetTimer(Handle, this, &AQuestVer2GameMode::TimeOver, MaxTime, false);
@@ -51,9 +50,7 @@ void AQuestVer2GameMode::TimeOver() {
 	AQuestVer2Character* QuestVer2Character = Cast<AQuestVer2Character>(UGameplayStatics::GetPlayerPawn(this, 0));
 	
 	//タイマー開放処理
-	FTimerManager& TimeManager = GetWorldTimerManager();
-	TimeManager.ClearTimer(Handle);
-	TimeManager.ClearAllTimersForObject(this);
+	TimerStop();
 
 	//プレイヤーリスタート
 	QuestVer2Character->CallRestartPlayer();
@@ -75,4 +72,15 @@ void AQuestVer2GameMode::PlayerDied(ACharacter* Character) {
 	RestartPlayer(CharacterController);
 
 	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"PlayerDied call");
+}
+
+float AQuestVer2GameMode::NowTimeCount() {
+	return GetWorldTimerManager().GetTimerRemaining(Handle);
+}
+
+void AQuestVer2GameMode::TimerStop() {
+	//タイマー開放処理
+	FTimerManager& TimeManager = GetWorldTimerManager();
+	TimeManager.ClearTimer(Handle);
+	TimeManager.ClearAllTimersForObject(this);
 }

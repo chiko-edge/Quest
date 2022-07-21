@@ -41,6 +41,11 @@ private:
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MaxTime")
     float MaxTime = 10;
+
+    UFUNCTION(BlueprintCallable, Category = "MyTimeFunc")
+        float NowTimeCount();
+    UFUNCTION(BlueprintCallable, Category = "MyTimeFunc")
+        void TimerStop();
 };
 
 
