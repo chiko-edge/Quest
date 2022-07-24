@@ -32,12 +32,6 @@ void AQuestVer2GameMode::BeginPlay() {
 	SetTimer();
 }
 
-void AQuestVer2GameMode::Tick(float DeltaTime)
-{
-	float time = GetWorldTimerManager().GetTimerRemaining(Handle);
-
-	UE_LOG(LogTemp, Log, TEXT("=====output : %s : %f"), L"tick", time);
-}
 
 void AQuestVer2GameMode::SetTimer() {
 	FTimerManager& TimeManager = GetWorldTimerManager();
