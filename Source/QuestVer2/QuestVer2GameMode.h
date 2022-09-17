@@ -30,6 +30,7 @@ protected:
     UPROPERTY()
         FOnPlayerDiedSignature OnPlayerDied;
 
+
 private:
     FTimerHandle Handle;
     void TimeOver();
@@ -45,6 +46,10 @@ public:
         float NowTimeCount();
     UFUNCTION(BlueprintCallable, Category = "MyTimeFunc")
         void TimerStop();
+
+    // ÉQÅ[ÉÄèIóπ
+    UFUNCTION(BlueprintCallable, Category = "MyGameMode")
+    void ExitGame();
 };
 
 

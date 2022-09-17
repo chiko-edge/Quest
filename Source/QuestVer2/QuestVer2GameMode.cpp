@@ -4,6 +4,7 @@
 #include "QuestVer2Character.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include <QuestGameInstance.h>
 
 AQuestVer2GameMode::AQuestVer2GameMode()
 {
@@ -14,6 +15,7 @@ AQuestVer2GameMode::AQuestVer2GameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 	PrimaryActorTick.bCanEverTick = false;
+
 }
 
 
@@ -38,6 +40,7 @@ void AQuestVer2GameMode::SetTimer() {
 	//タイマー
 	TimeManager.SetTimer(Handle, this, &AQuestVer2GameMode::TimeOver, MaxTime, false);
 }
+
 
 void AQuestVer2GameMode::TimeOver() {
 	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"Time Over");
@@ -77,4 +80,11 @@ void AQuestVer2GameMode::TimerStop() {
 	FTimerManager& TimeManager = GetWorldTimerManager();
 	TimeManager.ClearTimer(Handle);
 	TimeManager.ClearAllTimersForObject(this);
+}
+
+//ゲーム終了
+void AQuestVer2GameMode::ExitGame()
+{
+	UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"ExitGame");
+	UKismetSystemLibrary::QuitGame(this,nullptr, EQuitPreference::Quit,false);
 }

@@ -76,6 +76,9 @@ void AQuestVer2Character::SetupPlayerInputComponent(class UInputComponent* Playe
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AQuestVer2Character::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AQuestVer2Character::TouchStopped);
+
+
+	PlayerInputComponent->BindAction("Exit", IE_Pressed, this, &AQuestVer2Character::ExitAction);
 }
 
 void AQuestVer2Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
@@ -86,6 +89,16 @@ void AQuestVer2Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Lo
 void AQuestVer2Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	StopJumping();
+}
+
+void AQuestVer2Character::ExitAction()
+{
+	if (UWorld* World = GetWorld()) {
+		if (AQuestVer2GameMode* GameMode = Cast<AQuestVer2GameMode>(World->GetAuthGameMode())) {
+			UE_LOG(LogTemp, Log, TEXT("=====output : %s"), L"Exit Game");
+			GameMode->ExitGame();
+		}
+	}
 }
 
 void AQuestVer2Character::TurnAtRate(float Rate)
